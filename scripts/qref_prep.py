@@ -128,13 +128,13 @@ def parse_args():
     parser.add_argument('-s', '--syst1', nargs='+', default=['syst1'], type=str, help='name of the file(s) describing what should constitute the QM system(s) (default: \'syst1\')')
     parser.add_argument('-u', '--skip_h', action='store_true')
     parser.add_argument('-j', '--junctfactor', nargs=1, default=['junctfactor'], type=str, help='name of file containing the junction factors (default: \'junctfactor\')')
-    parser.add_argument('-l', '--ltype', nargs=1, default=12, type=int, help='link type (default: 12)')
-    parser.add_argument('-w', '--w_qm', nargs=1, default=7.5, type=float, help='scaling factor for QM energy and gradients (default: 7.5)')
+    parser.add_argument('-l', '--ltype', nargs=1, default=[12], type=int, help='link type (default: 12)')
+    parser.add_argument('-w', '--w_qm', nargs=1, default=[7.5], type=float, help='scaling factor for QM energy and gradients (default: 7.5)')
     parser.add_argument('-r', '--restart', nargs='?', const='restart.pdb', type=str, help='if specified creates a restart file (optional: name)')
     parser.add_argument('-rd', '--restraint_distance', nargs=5, action='append', type=str, help='if specified applies a harmonic (bond) distance restraint according to \'i atom1_serial atom2_serial desired_distance force_constant\'')
     parser.add_argument('-ra', '--restraint_angle', nargs=6, action='append', type=str, help='if specified applies a harmonic (bond) angle restraint according to \'i atom1_serial atom2_serial atom3_serial desired_angle force_constant\'')
     parser.add_argument('-t', '--transform', nargs=14, action='append', type=str, help='if specified applies the specified transformations according to \'i \"atoms\" R t\', where the matrix R should be given in row-wise order')
-    parser.add_argument('-v', '--version', action="version", version="%(prog)s 0.3.0")
+    parser.add_argument('-v', '--version', action="version", version="%(prog)s 0.3.1")
     return parser.parse_args()
 
 
@@ -145,7 +145,7 @@ def main():
     model_file = args.pdb
     syst1_files = args.syst1
     junc_factor_file = args.junctfactor[0]
-    ltype = args.ltype
+    ltype = args.ltype[0]
     if args.skip_h is not True:
         junc_factors = read_junc_factors(junc_factor_file=junc_factor_file)
     dm = DataManager()
@@ -208,7 +208,7 @@ def main():
     if args.skip_h is not True:
         dat['n_atoms'] = model_mm.get_number_of_atoms()
         dat['restart'] = args.restart
-        dat['w_qm'] = args.w_qm
+        dat['w_qm'] = args.w_qm[0]
         dat['cif'] = args.cif
         dat['orca_binary'] = locate_binary('orca')
         dat['ltype'] = ltype
