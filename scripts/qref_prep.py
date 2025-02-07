@@ -170,7 +170,7 @@ def main():
         restore_serial_in_model(model_mm1, serial_to_index=serial_to_index)
         mm1_file = 'mm_' + str(index) + '_c.pdb'
         print('Writing file:  ' + mm1_file)
-        model_mm1.get_hierarchy().write_pdb_file(file_name=mm1_file, crystal_symmetry=model_mm.crystal_symmetry())
+        model_mm1.get_hierarchy().write_pdb_file(file_name=mm1_file, crystal_symmetry=model_mm.crystal_symmetry(), anisou=False)
 
         if args.skip_h is not True:
             dat[syst1] = dict()
